@@ -82,7 +82,7 @@ def tempoZones(msList, seconds, distance):
     walkPercent = round(sum(walkSeconds) / sum(runTime) * 100, 1)
     idlePercent = round(sum(idleSeconds) / sum(runTime) * 100, 1)
 
- # Funktion, der printer et table med relevant data ud i konsollen
+# Funktion, der printer et table med relevant data ud i konsollen
 def printTable():
     d = {"Run": [round(sum(runMeters), 1), sum(runSeconds), str(runPercent) + "%"],
     "Walk": [round(sum(walkMeters), 1), sum(walkSeconds), str(walkPercent) + "%"],
