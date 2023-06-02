@@ -1,8 +1,8 @@
 ﻿#################################################################################################
 #                                                                                               #
 #                   Utroligt tung og rodet kode, som kunne optimeres gevaldigt.                 #
-#                   Jeg kunne bl.a. gøre flere af metoderne dynamiske, så jeg kunne             #
-#                   genbruge dem i checkpoint-opgaverne.                                        #
+#                   Jeg kunne derudover gøre flere af metoderne dynamiske, så jeg               #
+#                   kunne genbruge dem i checkpoint-opgaverne.                                  #
 #                                                                                               #
 #                   Men det virker! Og til sidst ville jeg bare gerne blive færdig              #
 #                   og aflevere.                                                                #
