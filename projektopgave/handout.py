@@ -56,6 +56,8 @@ idleSeconds = list()
 idlePercent = float()
 idleMeters = list()
 
+# Funktion, der itererer gennem vores liste af hastighed(m/s)
+# og konkluderer så om der bliver løbet/gået/stået
 def tempoZones(msList, seconds, distance):
 
     for i, ms in enumerate(msList):
@@ -80,6 +82,7 @@ def tempoZones(msList, seconds, distance):
     walkPercent = round(sum(walkSeconds) / sum(runTime) * 100, 1)
     idlePercent = round(sum(idleSeconds) / sum(runTime) * 100, 1)
 
+ # Funktion, der printer et table med relevant data ud i konsollen
 def printTable():
     d = {"Run": [round(sum(runMeters), 1), sum(runSeconds), str(runPercent) + "%"],
     "Walk": [round(sum(walkMeters), 1), sum(walkSeconds), str(walkPercent) + "%"],
@@ -110,11 +113,12 @@ for i, p in enumerate(punkter[1:]):
 tempoZones(vList, runTime, ddList)
 printTable()
 
-############################# Opgave 6 & 7 #############################
+############################# Opgave 6 #############################
 
 import csv
 import datetime
 
+# Her åbner vi en forbindelse til CSV-filen og gemmer dataen i postkontroller-variablen
 with open('projektopgave/data/hok_klubmesterskab_2022/kontroltider.csv', 'r', 
           encoding='utf-8', newline='') as csvfile:
     reader = csv.DictReader(csvfile)
@@ -126,23 +130,31 @@ with open('projektopgave/data/hok_klubmesterskab_2022/kontroltider.csv', 'r',
 checkpointList = []
 actualDistanceList = list()
 straightLineList = list()
+
 for i, pk in enumerate(postkontroller[1:]):
+    # Definerer en variabel, der indholder alle punkter med timestamps inden for det aktulle og det næste index i postkontroller
     st = [p for p in punkter if p['timestamp'].astimezone() < postkontroller[i+1]['timestamp']
                              if  p['timestamp'].astimezone() > postkontroller[i]['timestamp']]
 
     checkpointList.append(st)
-
+    
+    # Beregner afstanden mellem det første og det sidste målepunkt (fugleflugt)
     straightLine = distance( (st[0]['latitude'], st[0]['longitude']), (st[-1]['latitude'], st[-1]['longitude'])).meters
     straightLineList.append(straightLine)
 
     ddList = list()
+    # Beregner afstanden mellem hvert enkelt punkt
     for j, px in enumerate(st[1:]):
         ppx = st[j]
         
         dd = distance( (ppx['latitude'], ppx['longitude']), (px['latitude'], px['longitude'])).meters
         ddList.append(dd)
     actualDistanceList.append(sum(ddList))
+    
+############################# Opgave 7 #############################
 
+# Funktion, der itererer gennem vores liste af hastighed(m/s)
+# og konkluderer så om der bliver løbet/gået/stået
 def checkpointTempoZones(msList, seconds, distance):
     checkpointRun = list()
     checkpointRunSeconds = list ()
@@ -174,7 +186,10 @@ def checkpointTempoZones(msList, seconds, distance):
     checkpointRunPercent = round(sum(checkpointRunSeconds) / sum(seconds) * 100, 1)
     checkpointWalkPercent = round(sum(checkpointWalkSeconds) / sum(seconds) * 100, 1)
     checkpointIdlePercent = round(sum(checkpointIdleSeconds) / sum(seconds) * 100, 1)
-
+    
+    # Denne her gang har jeg valgt at bruge lokale variabler og kalde på vores print-funktion herfra
+    # Det gjorde det også meget nemmere for mig bare at kalde på tempo-metoden gennem checkpoints
+    # og derved iterere igennem dem
     printCheckpointTable(checkpointRunMeters, checkpointRunSeconds, checkpointRunPercent,
                          checkpointWalkMeters, checkpointWalkSeconds, checkpointWalkPercent,
                          checkpointIdleMeters, checkpointIdleSeconds, checkpointIdlePercent,
@@ -196,6 +211,8 @@ def printCheckpointTable(*variables):
         print ("{:<15} {:<10} {:<10} {:<10}".format(k, Meters, Seconds, Percent))
     print("")
 
+# Her itererer jeg gennem vores nye liste af målpunkter, som er sepereret af checkpoints
+# og gør derefter egentligt bare det samme mht. distance, m/s og tid som første gang
 for checkpoint in checkpointList:
 
     checkpointMsList = list()
